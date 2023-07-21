@@ -1,4 +1,48 @@
-apply plugin: 'com.android.application'
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.2.0'
+        classpath 'org.jacoco:org.jacoco.core:0.8.7' // Replace with your desired JaCoCo version
+            
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+jenkins@ip-192-168-0-33:~/workspace/Movie_box$ cd app/
+jenkins@ip-192-168-0-33:~/workspace/Movie_box/app$ l
+l: command not found
+jenkins@ip-192-168-0-33:~/workspace/Movie_box/app$ cat build
+cat: build: Is a directory
+jenkins@ip-192-168-0-33:~/workspace/Movie_box/app$ cat build.gradle 
+plugins {
+    id 'com.android.application'
+    id 'jacoco'
+    }
+jacoco {
+    toolVersion = "0.8.7" // Replace with your desired version
+    reportsDir = file("$buildDir/reports/jacoco")
+}
 
 android {
     compileSdkVersion 31
@@ -9,6 +53,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+	testOptions {
+        unitTests.includeAndroidResources = true
+		}
     }
     buildTypes {
         release {
@@ -19,6 +66,10 @@ android {
     lintOptions {
         abortOnError false // Add this to continue the build even with lint errors
     }
+}
+jacoco {
+    toolVersion = "0.8.7" // Replace with your desired version
+    reportsDir = file("build/reports/jacoco")
 }
 
 dependencies {
@@ -31,7 +82,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
+  //  classpath 'org.jacoco:org.jacoco.core:0.8.7'
 
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
@@ -49,5 +100,16 @@ dependencies {
 
     implementation 'com.android.support:cardview-v7:28.0.0'
 
-
+    // Cobertura dependency
+   // testImplementation 'net.sourceforge.cobertura:cobertura:2.1.1'
 }
+task jacocoReport(type: JacocoReport) {
+    dependsOn tasks.check // Use the 'check' task instead of 'test'
+    executionData(fileTree(dir: 'build', includes: ['jacoco/test*.exec', 'outputs/code-coverage/connected/*coverage.ec']))
+    reports {
+        xml.enabled true
+        html.enabled true
+        html.destination file("$buildDir/reports/jacoco/html")
+    }
+}
+
