@@ -1,40 +1,3 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0'
-        classpath 'org.jacoco:org.jacoco.core:0.8.7' // Replace with your desired JaCoCo version
-            
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-jenkins@ip-192-168-0-33:~/workspace/Movie_box$ cd app/
-jenkins@ip-192-168-0-33:~/workspace/Movie_box/app$ l
-l: command not found
-jenkins@ip-192-168-0-33:~/workspace/Movie_box/app$ cat build
-cat: build: Is a directory
-jenkins@ip-192-168-0-33:~/workspace/Movie_box/app$ cat build.gradle 
 plugins {
     id 'com.android.application'
     id 'jacoco'
@@ -69,7 +32,7 @@ android {
 }
 jacoco {
     toolVersion = "0.8.7" // Replace with your desired version
-    reportsDir = file("build/reports/jacoco")
+    reportsDir = file("$buildDir/reports/jacoco")
 }
 
 dependencies {
@@ -112,4 +75,3 @@ task jacocoReport(type: JacocoReport) {
         html.destination file("$buildDir/reports/jacoco/html")
     }
 }
-
