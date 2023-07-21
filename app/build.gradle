@@ -8,7 +8,7 @@ jacoco {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.example.movieboxbeta"
         minSdkVersion 15
