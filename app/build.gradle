@@ -66,23 +66,23 @@ dependencies {
     // Cobertura dependency
    // testImplementation 'net.sourceforge.cobertura:cobertura:2.1.1'
 }
-//task jacocoReport(type: JacocoReport) {
-  //  dependsOn tasks.check // Use the 'check' task instead of 'test'
-    //executionData(fileTree(dir: 'build', includes: ['jacoco/test*.exec', 'outputs/code-coverage/connected/*coverage.ec']))
-    //reports {
-      //  xml.enabled true
-        //html.enabled true
-        //html.destination file("$buildDir/reports/jacoco/html")
-    //}
-//}
 task jacocoReport(type: JacocoReport) {
-    executionData fileTree(dir: project.rootDir, includes: ['**/*.exec'])
-     reports {
-         xml {
-             destination file("$project.buildDir/reports/jacoco/jacoco.xml")
-         }
-         html {
-             destination file("$project.buildDir/reports/jacoco/jacoco.html")
-         }
-     }
- }
+    dependsOn tasks.check // Use the 'check' task instead of 'test'
+    executionData(fileTree(dir: 'build', includes: ['jacoco/test*.exec', 'outputs/code-coverage/connected/*coverage.ec']))
+    reports {
+        xml.enabled true
+        html.enabled true
+        html.destination file("$buildDir/reports/jacoco/html")
+    }
+}
+//task jacocoReport(type: JacocoReport) {
+  //  executionData fileTree(dir: project.rootDir, includes: ['**/*.exec'])
+    // reports {
+      //   xml {
+        //     destination file("$project.buildDir/reports/jacoco/jacoco.xml")
+         //}
+         //html {
+           //  destination file("$project.buildDir/reports/jacoco/jacoco.html")
+         //}
+     //}
+ //}
